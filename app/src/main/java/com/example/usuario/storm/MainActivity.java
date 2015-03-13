@@ -24,10 +24,10 @@ public class MainActivity extends ActionBarActivity {
         setContentView(R.layout.activity_main);
 
         String apiKey = "cf2a42e7d605ef379412740c1a62208e";
-        double latitud = 37.8267;
+        double latitude = 9999; //37.8267;
         double longitude = -122.423;
         String forecastUrl = "https://api.forecast.io/forecast/"
-                + apiKey + "/" + latitud + "," + longitude;
+                + apiKey + "/" + latitude + "," + longitude;
 
         OkHttpClient client = new OkHttpClient();
         Request request = new Request.Builder()
@@ -44,9 +44,12 @@ public class MainActivity extends ActionBarActivity {
             @Override
             public void onResponse(Response response) throws IOException {
                 try {
-
+                    Log.v(TAG, response.body().string());
                     if(response.isSuccessful()){
-                        Log.v(TAG, response.body().string());
+
+                    }
+                    else{
+                        alertUserAboutError();
                     }
                 } catch (IOException e) {
                     Log.e(TAG, "Exception caught: ",e);
@@ -54,6 +57,11 @@ public class MainActivity extends ActionBarActivity {
             }
         });
 
+    }
+
+    private void alertUserAboutError() {
+        AlertDialogFragment dialog = new AlertDialogFragment();
+        dialog.show(getFragmentManager(),"error_dialog");
     }
 
 }

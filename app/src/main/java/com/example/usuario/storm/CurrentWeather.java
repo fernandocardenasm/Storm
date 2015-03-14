@@ -1,5 +1,9 @@
 package com.example.usuario.storm;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.TimeZone;
+
 /**
  * Created by usuario on 13/03/2015.
  */
@@ -10,6 +14,7 @@ public class CurrentWeather {
     private double mHumidity;
     private double mPrecipChance;
     private String mSummary;
+    private String mTimeZone;
 
     public String getIcon() {
         return mIcon;
@@ -17,6 +22,14 @@ public class CurrentWeather {
 
     public void setIcon(String icon) {
         mIcon = icon;
+    }
+
+    public String getFormattedTime(){
+        SimpleDateFormat formatter = new SimpleDateFormat("h:mm a");
+        formatter.setTimeZone(TimeZone.getTimeZone(getTimeZone()));
+        Date dateTime = new Date(getTime()*1000);
+        String timeString = formatter.format(dateTime);
+        return timeString;
     }
 
     public long getTime() {
@@ -57,5 +70,13 @@ public class CurrentWeather {
 
     public void setSummary(String summary) {
         mSummary = summary;
+    }
+
+    public String getTimeZone() {
+        return mTimeZone;
+    }
+
+    public void setTimeZone(String timeZone) {
+        mTimeZone = timeZone;
     }
 }

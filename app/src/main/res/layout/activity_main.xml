@@ -17,15 +17,45 @@
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
         android:textColor="@android:color/white"
-        android:textSize="150sp"/>
+        android:textSize="80sp"/>
 
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/degreeImageView"
-        android:layout_alignTop="@+id/temperatureLabel"
-        android:layout_toRightOf="@+id/temperatureLabel"
-        android:layout_toEndOf="@+id/temperatureLabel"
         android:src="@mipmap/degree"
-        android:layout_marginTop="50dp"/>
+        android:layout_alignTop="@+id/iconeImageView"
+        android:layout_toRightOf="@+id/temperatureLabel"
+        android:layout_toEndOf="@+id/temperatureLabel"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="At 5:00 AM it will be"
+        android:id="@+id/timeLabel"
+        android:layout_above="@+id/temperatureLabel"
+        android:layout_centerHorizontal="true"
+        android:textColor="#80ffffff"
+        android:textSize="18sp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Alcatraz California, CA"
+        android:id="@+id/locationLabel"
+        android:layout_above="@+id/timeLabel"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="60dp"
+        android:textColor="@android:color/white"
+        android:textSize="24sp"/>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/iconeImageView"
+        android:src="@mipmap/cloudy_night"
+        android:layout_centerVertical="true"
+        android:layout_toLeftOf="@+id/timeLabel"
+        android:layout_toStartOf="@+id/timeLabel"
+        />
 </RelativeLayout>

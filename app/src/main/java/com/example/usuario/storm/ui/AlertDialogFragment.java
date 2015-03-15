@@ -1,10 +1,12 @@
-package com.example.usuario.storm;
+package com.example.usuario.storm.ui;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.Context;
 import android.os.Bundle;
+
+import com.example.usuario.storm.R;
 
 /**
  * Created by usuario on 13/03/2015.

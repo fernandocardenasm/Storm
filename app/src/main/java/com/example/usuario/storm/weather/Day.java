@@ -1,12 +1,12 @@
-package com.example.usuario.storm;
+package com.example.usuario.storm.weather;
 
 /**
  * Created by usuario on 15/03/2015.
  */
-public class Hour {
+public class Day {
     private long mTime;
     private String mSummary;
-    private double mTemperature;
+    private double mMaxTemperature;
     private String mIcon;
     private String mTimeZone;
 
@@ -26,12 +26,12 @@ public class Hour {
         mSummary = summary;
     }
 
-    public double getTemperature() {
-        return mTemperature;
+    public double getMaxTemperature() {
+        return mMaxTemperature;
     }
 
-    public void setTemperature(double temperature) {
-        mTemperature = temperature;
+    public void setMaxTemperature(double maxTemperature) {
+        mMaxTemperature = maxTemperature;
     }
 
     public String getIcon() {
@@ -50,4 +50,3 @@ public class Hour {
         mTimeZone = timeZone;
     }
 }
-

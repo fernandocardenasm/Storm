@@ -1,4 +1,4 @@
-package com.example.usuario.storm;
+package com.example.usuario.storm.location;
 
 import android.app.Activity;
 import android.content.Context;

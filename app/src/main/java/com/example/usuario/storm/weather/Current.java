@@ -1,4 +1,6 @@
-package com.example.usuario.storm;
+package com.example.usuario.storm.weather;
+
+import com.example.usuario.storm.R;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -7,7 +9,7 @@ import java.util.TimeZone;
 /**
  * Created by usuario on 13/03/2015.
  */
-public class CurrentWeather {
+public class Current {
     private String mIcon;
     private long mTime;
     private double mTemperature;

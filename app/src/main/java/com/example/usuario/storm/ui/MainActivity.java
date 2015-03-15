@@ -1,4 +1,4 @@
-package com.example.usuario.storm;
+package com.example.usuario.storm.ui;
 
 
 import android.content.Context;
@@ -15,6 +15,9 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.usuario.storm.location.LocationProvider;
+import com.example.usuario.storm.R;
+import com.example.usuario.storm.weather.Current;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
 import com.squareup.okhttp.Call;
@@ -35,7 +38,7 @@ import butterknife.InjectView;
 public class MainActivity extends ActionBarActivity implements LocationProvider.LocationCallback {
 
     public static final String TAG = MainActivity.class.getSimpleName();
-    private CurrentWeather mCurrentWeather;
+    private Current mCurrent;
 
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
 
@@ -122,7 +125,7 @@ public class MainActivity extends ActionBarActivity implements LocationProvider.
                         String jsonData = response.body().string();
                         Log.v(TAG, jsonData);
                         if (response.isSuccessful()) {
-                            mCurrentWeather = getCurrentDetails(jsonData);
+                            mCurrent = getCurrentDetails(jsonData);
 
                             //Allow to update the user Interface from the thread.
                             runOnUiThread(new Runnable() {
@@ -166,17 +169,17 @@ public class MainActivity extends ActionBarActivity implements LocationProvider.
     }
 
     private void updateDisplay() {
-        mTemperatureLabel.setText(mCurrentWeather.getTemperatureInCelsius()+ "");
-        mTimeLabel.setText("At "+mCurrentWeather.getFormattedTime() + " it will be");
-        mHumidityValue.setText(mCurrentWeather.getHumidity()+"");
-        mPrecipValue.setText(mCurrentWeather.getPrecipChance()+"%");
-        mSummaryLabel.setText(mCurrentWeather.getSummary());
+        mTemperatureLabel.setText(mCurrent.getTemperatureInCelsius()+ "");
+        mTimeLabel.setText("At "+ mCurrent.getFormattedTime() + " it will be");
+        mHumidityValue.setText(mCurrent.getHumidity()+"");
+        mPrecipValue.setText(mCurrent.getPrecipChance()+"%");
+        mSummaryLabel.setText(mCurrent.getSummary());
 
-        Drawable drawable = getResources().getDrawable(mCurrentWeather.getIconId());
+        Drawable drawable = getResources().getDrawable(mCurrent.getIconId());
         mIconImageView.setImageDrawable(drawable);
     }
 
-    private CurrentWeather getCurrentDetails(String jsonData) throws JSONException{
+    private Current getCurrentDetails(String jsonData) throws JSONException{
         JSONObject forecast = new JSONObject(jsonData);
         String timezone = forecast.getString("timezone");
         Log.i(TAG, "From JSON: "+timezone);
@@ -184,19 +187,19 @@ public class MainActivity extends ActionBarActivity implements LocationProvider.
         JSONObject currently = forecast.getJSONObject("currently");
 
 
-        CurrentWeather currentWeather = new CurrentWeather();
+        Current current = new Current();
 
-        currentWeather.setHumidity(currently.getDouble("humidity"));
-        currentWeather.setTime(currently.getLong("time"));
-        currentWeather.setIcon(currently.getString("icon"));
-        currentWeather.setPrecipChance(currently.getDouble("precipProbability"));
-        currentWeather.setSummary(currently.getString("summary"));
-        currentWeather.setTemperature(currently.getDouble("temperature"));
-        currentWeather.setTimeZone(timezone);
+        current.setHumidity(currently.getDouble("humidity"));
+        current.setTime(currently.getLong("time"));
+        current.setIcon(currently.getString("icon"));
+        current.setPrecipChance(currently.getDouble("precipProbability"));
+        current.setSummary(currently.getString("summary"));
+        current.setTemperature(currently.getDouble("temperature"));
+        current.setTimeZone(timezone);
 
-        Log.d(TAG,currentWeather.getFormattedTime());
+        Log.d(TAG, current.getFormattedTime());
 
-        return currentWeather;
+        return current;
     }
 
     private boolean isNetworkAvailable() {

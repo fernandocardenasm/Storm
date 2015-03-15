@@ -18,6 +18,7 @@ import android.widget.Toast;
 import com.example.usuario.storm.location.LocationProvider;
 import com.example.usuario.storm.R;
 import com.example.usuario.storm.weather.Current;
+import com.example.usuario.storm.weather.Forecast;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
 import com.squareup.okhttp.Call;
@@ -38,7 +39,7 @@ import butterknife.InjectView;
 public class MainActivity extends ActionBarActivity implements LocationProvider.LocationCallback {
 
     public static final String TAG = MainActivity.class.getSimpleName();
-    private Current mCurrent;
+    private Forecast mForecast;
 
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
 
@@ -125,8 +126,7 @@ public class MainActivity extends ActionBarActivity implements LocationProvider.
                         String jsonData = response.body().string();
                         Log.v(TAG, jsonData);
                         if (response.isSuccessful()) {
-                            mCurrent = getCurrentDetails(jsonData);
-
+                            mForecast = parseForecastDetails(jsonData);
                             //Allow to update the user Interface from the thread.
                             runOnUiThread(new Runnable() {
                                 @Override
@@ -169,14 +169,25 @@ public class MainActivity extends ActionBarActivity implements LocationProvider.
     }
 
     private void updateDisplay() {
-        mTemperatureLabel.setText(mCurrent.getTemperatureInCelsius()+ "");
-        mTimeLabel.setText("At "+ mCurrent.getFormattedTime() + " it will be");
-        mHumidityValue.setText(mCurrent.getHumidity()+"");
-        mPrecipValue.setText(mCurrent.getPrecipChance()+"%");
-        mSummaryLabel.setText(mCurrent.getSummary());
 
-        Drawable drawable = getResources().getDrawable(mCurrent.getIconId());
+        Current current = mForecast.getCurrent();
+        mTemperatureLabel.setText(current.getTemperatureInCelsius()+ "");
+        mTimeLabel.setText("At "+ current.getFormattedTime() + " it will be");
+        mHumidityValue.setText(current.getHumidity()+"");
+        mPrecipValue.setText(current.getPrecipChance()+"%");
+        mSummaryLabel.setText(current.getSummary());
+
+        Drawable drawable = getResources().getDrawable(current.getIconId());
         mIconImageView.setImageDrawable(drawable);
+    }
+
+    private Forecast parseForecastDetails(String jsonData) throws JSONException{
+        Forecast forecast = new Forecast();
+
+        forecast.setCurrent(getCurrentDetails(jsonData));
+
+        return forecast;
+
     }
 
     private Current getCurrentDetails(String jsonData) throws JSONException{

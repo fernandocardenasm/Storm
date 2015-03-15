@@ -3,6 +3,7 @@ package com.example.usuario.storm;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.location.Location;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -14,6 +15,8 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.model.LatLng;
 import com.squareup.okhttp.Call;
 import com.squareup.okhttp.Callback;
 import com.squareup.okhttp.OkHttpClient;
@@ -29,10 +32,14 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 
 
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends ActionBarActivity implements LocationProvider.LocationCallback {
 
     public static final String TAG = MainActivity.class.getSimpleName();
     private CurrentWeather mCurrentWeather;
+
+    private GoogleMap mMap; // Might be null if Google Play services APK is not available.
+
+    private LocationProvider mLocationProvider;
 
     @InjectView(R.id.temperatureLabel) TextView mTemperatureLabel;
 
@@ -51,17 +58,27 @@ public class MainActivity extends ActionBarActivity {
         ButterKnife.inject(this);
         mProgressBar.setVisibility(View.INVISIBLE);
 
-        final double latitude = 37.8267;
-        final double longitude = -122.423;
+        mLocationProvider = new LocationProvider(this, this);
 
-        mRefreshImageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getForecast(latitude,longitude);
-            }
-        });
 
-        getForecast(latitude,longitude);
+        /*final double latitude = 0;
+        final double longitude = 0;
+        */
+
+
+        //getForecast(latitude,longitude);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mLocationProvider.connect();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        mLocationProvider.disconnect();
     }
 
     private void getForecast(double latitude, double longitude) {
@@ -149,7 +166,7 @@ public class MainActivity extends ActionBarActivity {
     }
 
     private void updateDisplay() {
-        mTemperatureLabel.setText(mCurrentWeather.getTemperature()+ "");
+        mTemperatureLabel.setText(mCurrentWeather.getTemperatureInCelsius()+ "");
         mTimeLabel.setText("At "+mCurrentWeather.getFormattedTime() + " it will be");
         mHumidityValue.setText(mCurrentWeather.getHumidity()+"");
         mPrecipValue.setText(mCurrentWeather.getPrecipChance()+"%");
@@ -195,6 +212,33 @@ public class MainActivity extends ActionBarActivity {
     private void alertUserAboutError() {
         AlertDialogFragment dialog = new AlertDialogFragment();
         dialog.show(getFragmentManager(),"error_dialog");
+    }
+
+    public void handleNewLocation(Location location) {
+        Log.d(TAG, location.toString());
+
+        final double currentLatitude = location.getLatitude();
+        final double currentLongitude = location.getLongitude();
+        LatLng latLng = new LatLng(currentLatitude, currentLongitude);
+
+        //mMap.addMarker(new MarkerOptions().position(new LatLng(currentLatitude, currentLongitude)).title("Current Location"));
+        /*MarkerOptions options = new MarkerOptions()
+                .position(latLng)
+                .title("I am here!");
+                */
+        //mMap.addMarker(options);
+        //mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+
+        getForecast(currentLatitude,currentLongitude);
+
+
+        mRefreshImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getForecast(currentLatitude,currentLongitude);
+            }
+        });
+
     }
 
 }

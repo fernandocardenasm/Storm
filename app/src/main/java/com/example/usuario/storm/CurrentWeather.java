@@ -80,6 +80,11 @@ public class CurrentWeather {
         return (int) Math.round(mTemperature);
     }
 
+    public int getTemperatureInCelsius(){
+        int value = (int) Math.round((mTemperature - 32)/1.8);
+        return value;
+    }
+
     public void setTemperature(double temperature) {
         mTemperature = temperature;
     }

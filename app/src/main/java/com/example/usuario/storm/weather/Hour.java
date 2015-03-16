@@ -5,6 +5,7 @@ import android.os.Parcelable;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.TimeZone;
 
 /**
  * Created by usuario on 15/03/2015.
@@ -67,7 +68,7 @@ public class Hour implements Parcelable{
 
     public String getHour(){
         SimpleDateFormat formatter = new SimpleDateFormat("h a");
-        //formatter.setTimeZone(TimeZone.getTimeZone(mTimeZone));
+        formatter.setTimeZone(TimeZone.getTimeZone(mTimeZone));
 
         Date date = new Date(mTime * 1000);
         return formatter.format(date);

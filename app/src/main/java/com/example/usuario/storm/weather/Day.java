@@ -1,5 +1,9 @@
 package com.example.usuario.storm.weather;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.TimeZone;
+
 /**
  * Created by usuario on 15/03/2015.
  */
@@ -26,8 +30,12 @@ public class Day {
         mSummary = summary;
     }
 
-    public double getMaxTemperature() {
-        return mMaxTemperature;
+    public int getMaxTemperature() {
+        return (int) Math.round(mMaxTemperature);
+    }
+    public int getMaxTemperatureCelsius() {
+        int tempC = (int)  Math.round((mMaxTemperature -32)/1.8);
+        return tempC;
     }
 
     public void setMaxTemperature(double maxTemperature) {
@@ -48,5 +56,17 @@ public class Day {
 
     public void setTimeZone(String timeZone) {
         mTimeZone = timeZone;
+    }
+
+    public int getIconId(){
+        return Forecast.getIconId(mIcon);
+    }
+
+    public String getDayOfTheWeek(){
+        SimpleDateFormat formatter = new SimpleDateFormat("EEEE");
+        formatter.setTimeZone(TimeZone.getTimeZone(mTimeZone));
+
+        Date date = new Date(mTime * 1000);
+        return formatter.format(date);
     }
 }

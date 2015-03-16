@@ -1,10 +1,9 @@
-/*package com.example.usuario.storm.adapters;
+package com.example.usuario.storm.adapters;
 
-import android.content.Context;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -12,60 +11,53 @@ import com.example.usuario.storm.R;
 import com.example.usuario.storm.weather.Hour;
 
 
- * Created by usuario on 16/03/2015.
+public class HourAdapter extends RecyclerView.Adapter<HourAdapter.HourViewHolder> {
 
-public class HourAdapter extends BaseAdapter {
-    private Context mContext;
     private Hour[] mHours;
 
-    public HourAdapter(Context context, Hour[] hours){
-        mContext = context;
+    public HourAdapter(Hour[] hours){
         mHours = hours;
     }
 
     @Override
-    public int getCount() {
+    public HourViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+        View view = LayoutInflater.from(viewGroup.getContext())
+                .inflate(R.layout.hourly_list_item, viewGroup, false);
+
+        HourViewHolder viewHolder = new HourViewHolder(view);
+        return viewHolder;
+    }
+
+    @Override
+    public void onBindViewHolder(HourViewHolder hourViewHolder, int i) {
+        hourViewHolder.bindHour(mHours[i]);
+    }
+
+    @Override
+    public int getItemCount() {
         return mHours.length;
     }
 
-    @Override
-    public Object getItem(int position) {
-        return mHours[position];
-    }
+    public class HourViewHolder extends RecyclerView.ViewHolder{
 
-    @Override
-    public long getItemId(int position) {
-        return 0;
-    }
+        public TextView mTimeLabel;
+        public TextView mSummaryLabel;
+        public TextView mTemperatureLabel;
+        public ImageView mIconImageView;
 
-    @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolder holder;
-        if (convertView == null){
-            convertView = LayoutInflater.from(mContext).inflate(R.layout.daily_list_item,null);
-            holder = new ViewHolder();
-            holder.iconImageView = (ImageView) convertView.findViewById(R.id.iconImageView);
-            holder.dayLabel = (TextView) convertView.findViewById(R.id.dayNameLabel);
-            holder.temperatureLabel = (TextView) convertView.findViewById(R.id.temperatureLabel);
-            convertView.setTag(holder);
-        }
-        else{
-            holder = (ViewHolder) convertView.getTag();
+        public HourViewHolder(View itemView) {
+            super(itemView);
+            mTimeLabel = (TextView) itemView.findViewById(R.id.timeLabel);
+            mSummaryLabel = (TextView) itemView.findViewById(R.id.summaryLabel);
+            mTemperatureLabel = (TextView) itemView.findViewById(R.id.temperatureLabel);
+            mIconImageView = (ImageView) itemView.findViewById(R.id.iconImageView);
         }
 
-        Hour hour = mHours[position];
-
-        holder.iconImageView.setImageResource(hour.getIconId());
-        holder.temperatureLabel.setText(hour.getTemperatureCelsius());
-        holder.dayLabel.setText(hour.getDayOfTheWeek());
-
-        return convertView;
-    }
-
-    private static class ViewHolder {
-        ImageView iconImageView; //public by default
-        TextView temperatureLabel;
-        TextView dayLabel;
+        public void bindHour(Hour hour){
+            mTimeLabel.setText(hour.getHour());
+            mSummaryLabel.setText(hour.getSummary());
+            mTemperatureLabel.setText(hour.getTemperatureCelsius() + "");
+            mIconImageView.setImageResource(hour.getIconId());
+        }
     }
 }
- */

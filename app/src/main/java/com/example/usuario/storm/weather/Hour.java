@@ -3,6 +3,9 @@ package com.example.usuario.storm.weather;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 /**
  * Created by usuario on 15/03/2015.
  */
@@ -42,6 +45,10 @@ public class Hour implements Parcelable{
         mTemperature = temperature;
     }
 
+    public int getIconId(){
+        return Forecast.getIconId(mIcon);
+    }
+
     public String getIcon() {
         return mIcon;
     }
@@ -56,6 +63,14 @@ public class Hour implements Parcelable{
 
     public void setTimeZone(String timeZone) {
         mTimeZone = timeZone;
+    }
+
+    public String getHour(){
+        SimpleDateFormat formatter = new SimpleDateFormat("h a");
+        //formatter.setTimeZone(TimeZone.getTimeZone(mTimeZone));
+
+        Date date = new Date(mTime * 1000);
+        return formatter.format(date);
     }
 
     @Override

@@ -2,6 +2,7 @@ package com.example.usuario.storm.ui;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.net.ConnectivityManager;
@@ -15,8 +16,8 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.usuario.storm.location.LocationProvider;
 import com.example.usuario.storm.R;
+import com.example.usuario.storm.location.LocationProvider;
 import com.example.usuario.storm.weather.Current;
 import com.example.usuario.storm.weather.Day;
 import com.example.usuario.storm.weather.Forecast;
@@ -37,6 +38,7 @@ import java.io.IOException;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import butterknife.OnClick;
 
 
 public class MainActivity extends ActionBarActivity implements LocationProvider.LocationCallback {
@@ -66,6 +68,7 @@ public class MainActivity extends ActionBarActivity implements LocationProvider.
         mProgressBar.setVisibility(View.INVISIBLE);
 
         mLocationProvider = new LocationProvider(this, this);
+
 
 
         /*final double latitude = 0;
@@ -303,6 +306,12 @@ public class MainActivity extends ActionBarActivity implements LocationProvider.
             }
         });
 
+    }
+
+    @OnClick (R.id.dailyButton)
+    public void startDailyActivity(View view){
+        Intent intent = new Intent(this,DailyForecastActivity.class);
+        startActivity(intent);
     }
 
 }

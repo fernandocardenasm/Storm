@@ -9,6 +9,8 @@ import com.example.usuario.storm.R;
 import com.example.usuario.storm.adapters.DayAdapter;
 import com.example.usuario.storm.weather.Day;
 
+import java.util.Arrays;
+
 public class DailyForecastActivity extends ListActivity {
 
     private Day[] mDays;
@@ -19,9 +21,11 @@ public class DailyForecastActivity extends ListActivity {
         setContentView(R.layout.activity_daily_forecast);
 
         Intent intent = getIntent();
-        mDays = intent.getParcelableArrayExtra(MainActivity.DAILY_FORECAST);
+        Parcelable[] parcelables = intent.getParcelableArrayExtra(MainActivity.DAILY_FORECAST);
+        mDays = Arrays.copyOf(parcelables, parcelables.length, Day[].class);
 
         DayAdapter dayAdapter = new DayAdapter(this, mDays);
+        setListAdapter(dayAdapter);
     }
 
 

@@ -71,7 +71,7 @@ public class MainActivity extends ActionBarActivity implements LocationProvider.
         setContentView(R.layout.activity_main);
         ButterKnife.inject(this);
         mProgressBar.setVisibility(View.INVISIBLE);
-        toggleButtonRefresh();
+        buttonsUnenable();
 
         mLocationProvider = new LocationProvider(this, this);
 
@@ -88,14 +88,14 @@ public class MainActivity extends ActionBarActivity implements LocationProvider.
     @Override
     protected void onResume() {
         super.onResume();
-        toggleButtonRefresh();
+        buttonsUnenable();
         mLocationProvider.connect();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        toggleButtonRefresh();
+        buttonsUnenable();
         mLocationProvider.disconnect();
     }
 
@@ -134,7 +134,7 @@ public class MainActivity extends ActionBarActivity implements LocationProvider.
                             @Override
                             public void run() {
                                 toggleRefresh();
-                                toggleButtonRefresh();
+                                buttonsEnable();
                             }
                         });
 
@@ -167,15 +167,14 @@ public class MainActivity extends ActionBarActivity implements LocationProvider.
         }
     }
 
-    private void toggleButtonRefresh(){
-        if (mDailyButton.isEnabled()){
-            mDailyButton.setEnabled(false);
-            mHourlyButton.setEnabled(false);
-        }
-        else{
-            mDailyButton.setEnabled(true);
-            mHourlyButton.setEnabled(true);
-        }
+    private void buttonsEnable(){
+
+        mDailyButton.setEnabled(true);
+        mHourlyButton.setEnabled(true);
+    }
+    private void buttonsUnenable(){
+        mDailyButton.setEnabled(false);
+        mHourlyButton.setEnabled(false);
     }
 
     private void toggleRefresh() {
@@ -188,8 +187,6 @@ public class MainActivity extends ActionBarActivity implements LocationProvider.
             mProgressBar.setVisibility(View.INVISIBLE);
             mRefreshImageView.setVisibility(View.VISIBLE);
         }
-
-
 
 
     }

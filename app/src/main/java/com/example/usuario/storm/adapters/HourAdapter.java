@@ -64,7 +64,7 @@ public class HourAdapter extends RecyclerView.Adapter<HourAdapter.HourViewHolder
         public void bindHour(Hour hour){
             mTimeLabel.setText(hour.getHour());
             mSummaryLabel.setText(hour.getSummary());
-            mTemperatureLabel.setText(hour.getTemperatureCelsius() + "");
+            mTemperatureLabel.setText(hour.getTemperatureCelsius() + "°C");
             mIconImageView.setImageResource(hour.getIconId());
         }
 
@@ -72,7 +72,7 @@ public class HourAdapter extends RecyclerView.Adapter<HourAdapter.HourViewHolder
         public void onClick(View v) {
             String time = mTimeLabel.getText().toString();
             String temperature = mTemperatureLabel.getText().toString();
-            String summary = mTemperatureLabel.getText().toString();
+            String summary = mSummaryLabel.getText().toString();
 
             String message = String.format("At %s it will be %s and %s"
                     ,time, temperature, summary);

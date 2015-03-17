@@ -10,4 +10,13 @@
     <string name="title_activity_daily_forecast">DailyForecastActivity</string>
     <string name="no_daily_forecast_data">There is no data to display</string>
     <string name="title_activity_hourly_forecast">HourlyForecastActivity</string>
+    <string name="time_data_loading_label">Loading Time...</string>
+    <string name="location_data_loading_label">Loading Location...</string>
+    <string name="summary_loading_label">Getting current weather...</string>
+    <string name="daily_button">Daily</string>
+    <string name="hourly_button">Hourly</string>
+    <string name="celsius_label">C</string>
+    <string name="humidity_label">Humidity</string>
+    <string name="rain_snow_label">RAIN/SNOW?</string>
+    <string name="this_week_weather_label">This Week Weather</string>
 </resources>

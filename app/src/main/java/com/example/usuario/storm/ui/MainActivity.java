@@ -8,6 +8,8 @@ import android.location.Location;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.View;
@@ -18,6 +20,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.usuario.storm.R;
+import com.example.usuario.storm.location.LocationAddress;
 import com.example.usuario.storm.location.LocationProvider;
 import com.example.usuario.storm.weather.Current;
 import com.example.usuario.storm.weather.Day;
@@ -64,6 +67,7 @@ public class MainActivity extends ActionBarActivity implements LocationProvider.
     @InjectView(R.id.progressBar) ProgressBar mProgressBar;
     @InjectView(R.id.dailyButton) Button mDailyButton;
     @InjectView(R.id.hourlyButton) Button mHourlyButton;
+    @InjectView(R.id.locationValue) TextView mLocationValue;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -315,6 +319,10 @@ public class MainActivity extends ActionBarActivity implements LocationProvider.
 
         getForecast(currentLatitude,currentLongitude);
 
+        LocationAddress locationAddress = new LocationAddress();
+        locationAddress.getAddressFromLocation(currentLatitude, currentLongitude,
+                getApplicationContext(), new GeocoderHandler());
+
 
         mRefreshImageView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -337,6 +345,23 @@ public class MainActivity extends ActionBarActivity implements LocationProvider.
         Intent intent = new Intent(this, HourlyForecastActivity.class);
         intent.putExtra(HOURLY_FORECAST, mForecast.getHourlyForecast());
         startActivity(intent);
+    }
+
+    private class GeocoderHandler extends Handler {
+        @Override
+        public void handleMessage(Message message) {
+            String locationAddress;
+            switch (message.what) {
+                case 1:
+                    Bundle bundle = message.getData();
+                    locationAddress = bundle.getString("address");
+                    break;
+                default:
+                    locationAddress = null;
+            }
+            mLocationValue.setText(locationAddress);
+            //Toast.makeText(MainActivity.this, locationAddress, Toast.LENGTH_LONG).show();
+        }
     }
 
 }

@@ -71,7 +71,7 @@ public class MainActivity extends ActionBarActivity implements LocationProvider.
         setContentView(R.layout.activity_main);
         ButterKnife.inject(this);
         mProgressBar.setVisibility(View.INVISIBLE);
-        buttonsUnenable();
+        buttonsUnable();
 
         mLocationProvider = new LocationProvider(this, this);
 
@@ -88,14 +88,14 @@ public class MainActivity extends ActionBarActivity implements LocationProvider.
     @Override
     protected void onResume() {
         super.onResume();
-        buttonsUnenable();
+        buttonsUnable();
         mLocationProvider.connect();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        buttonsUnenable();
+        buttonsUnable();
         mLocationProvider.disconnect();
     }
 
@@ -172,7 +172,7 @@ public class MainActivity extends ActionBarActivity implements LocationProvider.
         mDailyButton.setEnabled(true);
         mHourlyButton.setEnabled(true);
     }
-    private void buttonsUnenable(){
+    private void buttonsUnable(){
         mDailyButton.setEnabled(false);
         mHourlyButton.setEnabled(false);
     }

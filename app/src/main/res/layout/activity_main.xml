@@ -165,7 +165,8 @@
             android:layout_weight="1"
             android:background="#40ffffff"
             android:textColor="#ffffffff"
-            android:layout_gravity="left"/>
+            android:layout_gravity="left"
+            android:enabled="true"/>
 
         <Button
             android:layout_width="match_parent"
@@ -175,7 +176,8 @@
             android:layout_weight="1"
             android:background="#40ffffff"
             android:textColor="#ffffffff"
-            android:layout_gravity="right"/>
+            android:layout_gravity="right"
+            android:enabled="false"/>
     </LinearLayout>
 
 </RelativeLayout>

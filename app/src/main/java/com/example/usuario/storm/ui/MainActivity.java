@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -61,6 +62,8 @@ public class MainActivity extends ActionBarActivity implements LocationProvider.
     @InjectView(R.id.iconImageView) ImageView mIconImageView;
     @InjectView(R.id.refreshImageView) ImageView mRefreshImageView;
     @InjectView(R.id.progressBar) ProgressBar mProgressBar;
+    @InjectView(R.id.dailyButton) Button mDailyButton;
+    @InjectView(R.id.hourlyButton) Button mHourlyButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +71,7 @@ public class MainActivity extends ActionBarActivity implements LocationProvider.
         setContentView(R.layout.activity_main);
         ButterKnife.inject(this);
         mProgressBar.setVisibility(View.INVISIBLE);
+        toggleButtonRefresh();
 
         mLocationProvider = new LocationProvider(this, this);
 
@@ -84,12 +88,14 @@ public class MainActivity extends ActionBarActivity implements LocationProvider.
     @Override
     protected void onResume() {
         super.onResume();
+        toggleButtonRefresh();
         mLocationProvider.connect();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
+        toggleButtonRefresh();
         mLocationProvider.disconnect();
     }
 
@@ -128,6 +134,7 @@ public class MainActivity extends ActionBarActivity implements LocationProvider.
                             @Override
                             public void run() {
                                 toggleRefresh();
+                                toggleButtonRefresh();
                             }
                         });
 
@@ -157,6 +164,17 @@ public class MainActivity extends ActionBarActivity implements LocationProvider.
         }
         else{
             Toast.makeText(this, getString(R.string.network_unavailable_message), Toast.LENGTH_LONG).show();
+        }
+    }
+
+    private void toggleButtonRefresh(){
+        if (mDailyButton.isEnabled()){
+            mDailyButton.setEnabled(false);
+            mHourlyButton.setEnabled(false);
+        }
+        else{
+            mDailyButton.setEnabled(true);
+            mHourlyButton.setEnabled(true);
         }
     }
 

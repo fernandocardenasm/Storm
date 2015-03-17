@@ -14,6 +14,8 @@ import java.util.Locale;
 
 /**
  * Created by usuario on 17/03/2015.
+ *
+ * Most of the code was taken from: http://javapapers.com/android/android-get-address-with-street-name-city-for-location-with-geocoding/
  */
 public class LocationAddress {
     private static final String TAG = "LocationAddress";

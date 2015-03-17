@@ -15,6 +15,7 @@ import com.google.android.gms.location.LocationServices;
 
 /**
  * Created by benjakuben on 12/17/14.
+ * Taken from his project in GitHub: https://github.com/treehouse/android-location-example-refactored
  */
 public class LocationProvider implements
         GoogleApiClient.ConnectionCallbacks,
